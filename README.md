@@ -6,8 +6,9 @@ Trying to understand the working of the following, by developing them from scrat
 3. Middlewares (developed from scratch)
 
 # WSGI
-![Link 1](https://www.youtube.com/watch?v=WqrCnVAkLIo)
-![Link 2](https://rahmonov.me/posts/what-the-hell-is-wsgi-anyway-and-what-do-you-eat-it-with/)
+[Link 1](https://www.youtube.com/watch?v=WqrCnVAkLIo)
+
+[Link 2](https://rahmonov.me/posts/what-the-hell-is-wsgi-anyway-and-what-do-you-eat-it-with/)
 
 ## History
 ### Static Web Servers
@@ -66,7 +67,7 @@ def application(start_response, environ):
 
 The name middleware stems from the fact that it is the software that sits between the client-side requests on the front end and the back-end resource being requested.
 
-A middleware is an object that wrapps the original application. Middlewares and apps are agnostic to each other, so we can plug any *WSGI* app to a middleware a any middleware to any WSGI app. There can be chain of middlewares, allowing a request or resphttps://www.youtube.com/watch?v=WqrCnVAkLIoonse to go through many layers of processing. 
+A middleware is an object that wrapps the original application. Middlewares and apps are agnostic to each other, so we can plug any *WSGI* app to a middleware a any middleware to any WSGI app. There can be chain of middlewares, allowing a request or response to go through many layers of processing. 
 
 Essentially, the middleware performs some specific function on the HTTP request or response at a specific stage in the HTTP pipeline before or after the user defined controller. Middleware is a design pattern to eloquently add cross cutting concerns like logging, handling authentication, or gzip compression without having many code contact points. Since these cross-cutting concerns are handled in middleware, the controllers/user defined handlers can focus on the core business logic.
 
