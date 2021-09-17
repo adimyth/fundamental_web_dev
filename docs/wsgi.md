@@ -54,6 +54,47 @@ server {
 ```
 
 ## WSGI Server Implementations
+### Famous Ones
 * Gunicorn
 * uWSGI
-* mod_wsgi
+* Meinhald (offers workers for Gunicorn)
+
+### OTHERS
+* Bjoern - Written in C & very lightweight. One of the highest performing WSGI servers available. Considered faster than Gunicorn & less bloated than uWSGI.
+* CherryPy
+* Tornado
+
+## WSGI Framework Implementations
+**Falcon**
+* Class-based (a great advantage for REST APIs)
+* Only 2 minor dependencies
+* Performance is amazing
+* Intended only for APIs which makes it more focused and minimal
+* Excellent design, documentation and codebase
+
+**Django** - Too big and with batteries included (contains an ORM, templating .etc); is clearly intended for full-stack as well as APIs
+**Tornado**
+**Sanic**
+
+### OTHERS
+**Flask**
+* Very popular
+* Decorator-based  
+* Medium sized framework with a few dependencies
+* Performance is okayish
+
+**Bottle**
+* Decorator-based
+* No dependencies
+* Very similar to Flask but a lot faster
+* No new releases for over a year
+
+
+## Extras
+WSGI speeds up Python web application development because you only need to know basic things about WSGI. If you use TurboGears, Django or CherryPy, you do not need to be concerned about how your particular framework utilizes the WSGI standard
+
+WSGI gives u the flexibility of chaning web stack components like replacing the web server (gunicorn, u_wsgi, etc) & also the application framework (Django, Flask, etc)
+
+## References
+https://fastapi.tiangolo.com/alternatives/
+https://fgimian.github.io/blog/2018/05/17/choosing-a-fast-python-api-framework/
