@@ -41,7 +41,7 @@ WSGI provides a standard interface between *web servers (eg. gunicorn)* and *web
  According to PEP 333, the document which specifies the details of the WSGI, the application interface is implemented as a ```callable object such as a function, a method, a class or an instance with a *__call__*``` method. This object should accept two positional arguments and return the response body as strings in an iterable.
 
 The two arguments are:-
-* a dictionary with environment variables
+* a dictionary with environment variables - this is as per the fork model where the environment variables from the request are recieved by the wsgi server
 * a callback function that will be used to send HTTP status and HTTP headers to the server
 
 ```python
