@@ -27,7 +27,9 @@ As per the REST architecture, **the server does not store any state about the cl
 Between the client who requests a representation of a resource’s state, and the server who sends the response back, there might be a number of servers in the middle. These servers might provide a security layer, a caching layer, a load-balancing layer, or other functionality. Those layers should not affect the request or the response. The client is agnostic as to how many layers, if any, there are between the client and the actual server responding to the request.
 
 ### Cacheable
-Cache constraints require that the data within a response to a request be implicitly or explicitly labeled as cacheable or non-cacheable. If a response is cacheable, then a client cache is given the right to reuse that response data for later, equivalent requests. **By using HTTP headers, an origin server indicates whether a response can be cached and, if so, by whom, and for how long.**
+Cache constraints require that the data within a response to a request be implicitly or explicitly labeled as cacheable or non-cacheable. Caching is the ability to store copies of frequently accessed data in several places along the request-response path. *When a consumer requests a resource representation, the request goes through a cache or a series of caches (local cache, proxy cache, or reverse proxy) toward the service hosting the resource. If any of the caches along the request path has a fresh copy of the requested representation, it uses that copy to satisfy the request.* If none of the caches can satisfy the request, the request travels to the service (or origin server as it is formally known).
+
+> By using HTTP headers, an origin server indicates whether a response can be cached and, if so, by whom, and for how long
 
 * `GET` requests should be cacheable by default
 * `POST` requests are not cacheable by default but can be made cacheable if either an `Expires` header or a `Cache-Control` header with a directive, to explicitly allows caching, is added to the response.
@@ -37,6 +39,26 @@ Cache constraints require that the data within a response to a request be implic
 
 ### Code on Demand
 Optional. The client can request code from the server, and then the response from the server will contain some code, usually in the form of a script. The client then can execute that code.
+
+## Compression
+### Accept-Encoding
+While requesting resource representations – along with an HTTP request, the client sends an `Accept-Encoding` *header* that says what kind of compression algorithms the client understands. The two standard values for Accept-Encoding are `compress` and `gzip`.
+```bash
+GET        /employees         HTTP/1.1
+Host:     www.domain.com
+Accept:     text/html
+Accept-Encoding:     gzip,compress
+```
+`406 (Not Acceptable)` - When the server cannot send what the client understands (specified in `Accept*` in request)
+
+### Content-Encoding
+If the server understands one of the compression algorithms from `Accept-Encoding`, it can use that algorithm to compress the representation before serving it. When successfully compressed, server lets know the client of encoding scheme by another *HTTP header* i.e. `Content-Encoding`. The original media/content type is specified in the `Content-Type` header.
+```bash
+200 OK
+Content-Type:     text/html
+Content-Encoding:     gzip
+```
+`415 (Unsupported Media Type)` - Return if the `Accept-Encoding` from client request has something that the server does not understand
 
 ## Extras
 ### Application State vs Resource State
@@ -50,6 +72,22 @@ There are some very noticeable advantages for having REST APIs stateless -
 2. Being stateless makes REST APIs less complex – by removing all server-side state synchronization logic.
 3. A stateless API is also easy to cache as well. Specific software can decide whether or not to cache the result of an HTTP request just by looking at that one request. There’s no nagging uncertainty that state from a previous request might affect the cacheability of this one. It improves the performance of applications.
 4. The server never loses track of “where” each client is in the application because the client sends all necessary information with each request.
+
+### Content Negotiation
+Generally, resources can have multiple representations.
+
+#### Content Negotiation using `HTTP Headers`
+`Content-Type` can be used by both clients & servers to identify the format of the data in the request(client) or response(server) and therefore help the other part interpret the information correctly
+
+`Accept` header is used by clients to tell the server which type of content they expect/prefer as response. It is possible to have multiple values in Accept header. The client may want to give multiple values in the accept header when the client is not sure about if its desired representation is present or supported by the server at that time. Example - `Accept: application/json,application/xml;q=0.9,*/*;q=0.8`
+
+#### Content negotiation using URL patterns
+Another way to pass content type information to the server, the client may use the specific extension in resource URIs. For example, a client can ask for details using:
+```bash
+http://rest.api.com/v1/employees/20423.xml
+http://rest.api.com/v1/employees/20423.json
+```
+Here the client is requesting for XML in the first request & JSON in the second
 
 ## Resources
 https://restfulapi.net/statelessness/
