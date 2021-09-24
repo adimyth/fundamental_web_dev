@@ -21,6 +21,14 @@ Typically all requests from D would go directly to F, and F would send responses
 Global Server Load Balancing (GSLB) - In this form of load balancing, a website can be distributed on several servers around the globe and the reverse proxy will send clients to the server that’s geographically closest to them. This decreases the distances that requests and responses need to travel, minimizing load times.
 * **Caching** - A reverse proxy can also cache content, resulting in faster performance
 * **SSL encryption** - Encrypting and decrypting SSL (or TLS) communications for each client can be computationally expensive for an origin server. A reverse proxy can be configured to decrypt all incoming requests and encrypt all outgoing responses, freeing up valuable resources on the origin server.
+* **Superior Compression** - A reverse proxy is ideal to compress server responses as it sits between the origin servers and the client
+* **A/B Testing** - We can use proxy server to create two seperate flows at the server level. We can use Nginx's `split_clients` or `sticky route`.
+* **Monitoring & Logging Traffic** - A reverse proxy captures any requests that go through it. Hence, you can use them as a central hub to monitor and log traffic.
+
+Some popular ones are -
+1. Nginx
+2. Apache Traffic Server
+3. HAProxy
 
 # Forward vs Reverse Proxy
 The difference between a forward and reverse proxy is subtle but important. A simplified way to sum it up would be to say that a forward proxy sits in front of a client and ensures that no origin server ever communicates directly with that specific client. On the other hand, a reverse proxy sits in front of an origin server and ensures that no client ever communicates directly with that origin server.
